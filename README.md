@@ -14,5 +14,22 @@ A Python framework for modeling stock behavior and pricing options, including an
   - Black–Scholes implementation with Greeks (Delta, Gamma, Vega, Theta, Rho)
   - Support for contract sizing and payoff logic at maturity
 
+## Examples
+
+### Stock Price Densities
+Comparison of the parametric GBM density vs empirical-based density:
+
+![Stock Price Densities](images/pdf_example.png)
+
+### Stock Price Simulated Paths
+Monte Carlo paths from a GBM model compared with empirical paths:
+
+![Stock Price Simulated Paths](images/sim_paths.png)
+
+### Black–Scholes Option Valuation
+Option values vs. spot price for calls and puts across maturities:
+
+![Option Valuation](images/option_values.png)
+
 
 
