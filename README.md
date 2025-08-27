@@ -16,6 +16,8 @@ A Python framework for modeling stock behavior and pricing options, including an
 
 ## Examples
 
+For more detailed examples, go to `examples`.
+
 ### Stock Price Densities
 Comparison of the parametric GBM density vs empirical-based density:
 
