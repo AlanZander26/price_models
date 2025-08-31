@@ -73,18 +73,19 @@ class GBMModel(StockPriceModel):
         # --- KDE smoothing on terminal prices ---
         kde = sp.stats.gaussian_kde(ST_samples)
         return kde(ST)
-    
-    def simulate_paths(self, S0, T, vol, r, N_steps=200, N_paths=1):
-        sigma = vol * T**0.5
-        deltaT = T/N_steps
-        t_arr = np.arange(1, N_steps+1)*deltaT
-        Z = sp.stats.norm.rvs(loc=0, scale=1, size=(N_paths, N_steps))
-        paths = np.zeros((N_paths, N_steps + 1))
-        paths[:, 0] = S0
-        # S(n+1) = S(n)*exp((r - 0.5 * vol**2) * deltaT + vol * np.sqrt(deltaT) * Z(n+1)) => (recursive until S0):
-        paths[:, 1:] = S0 * np.exp((r - 0.5 * (sigma/np.sqrt(N_steps))**2) * t_arr + (sigma/np.sqrt(N_steps)) * Z.cumsum(axis=1)) 
-        return paths
 
+    def simulate_paths(self, S0, T, vol, r, N_steps=200, N_paths=1):
+        deltaT = T / N_steps
+        t_arr = np.linspace(deltaT, T, N_steps)  # time grid
+        Z = sp.stats.norm.rvs(size=(N_paths, N_steps))
+        W = np.cumsum(np.sqrt(deltaT) * Z, axis=1) # Brownian motion increments
+        drift = (r - 0.5 * vol**2) * t_arr # Exact solution for GBM
+        diffusion = vol * W
+        log_paths = np.log(S0) + drift + diffusion
+        paths = np.zeros((N_paths, N_steps+1))
+        paths[:, 0] = S0
+        paths[:, 1:] = np.exp(log_paths)
+        return paths
 
     def prob_between(self, S0, ST1, ST2, T, vol, r, **kwargs): 
         """
