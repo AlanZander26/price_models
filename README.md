@@ -29,9 +29,11 @@ Monte Carlo paths from a GBM model compared with empirical paths:
 ![Stock Price Simulated Paths](images/sim_paths.png)
 
 ### Black–Scholes Option Valuation
-Option values vs. spot price for calls and puts across maturities:
+Option values vs. spot price for calls and puts across maturities, according to Black-Scholes model:
 
-![Option Valuation](images/option_values.png)
+![Option Valuation BlackScholesModel](images/option_values.png)
 
+We also illustrate our `NoArbitrageModel` class, that given any stock pricing model, it computes option prices in an arbitrage-free way:
 
+![Option Valuation NoArbitrageModel](images/no_arbitrage_options.png)
 
