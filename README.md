@@ -33,7 +33,7 @@ Option values vs. spot price for calls and puts across maturities, according to 
 
 ![Option Valuation BlackScholesModel](images/option_values.png)
 
-We also illustrate our `NoArbitrageModel` class, that given any stock pricing model, it computes option prices in an arbitrage-free way:
+We also illustrate our `NoArbitrageModel` class, that given any stock pricing model (here `EmpiricalReturnModel`), it computes option prices in an arbitrage-free way:
 
 ![Option Valuation NoArbitrageModel](images/no_arbitrage_options.png)
 
