@@ -8,7 +8,7 @@ from price_models.price_model import PriceModel
 
 # Concrete asset types
 from price_models.stock_price_models import StockPriceModel, GBMModel, EmpiricalReturnModel
-from price_models.option_price_models import OptionPriceModel, BlackScholesModel
+from price_models.option_price_models import OptionPriceModel, BlackScholesModel, NoArbitrageModel
 
 
 __all__ = [
@@ -23,4 +23,5 @@ __all__ = [
 
     # Concrete option models
     "BlackScholesModel",
+    "NoArbitrageModel",
 ]

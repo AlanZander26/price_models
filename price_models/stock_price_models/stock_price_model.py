@@ -37,7 +37,7 @@ class StockPriceModel(PriceModel, ABC):
         pass
     
     @abstractmethod
-    def simulate_paths(self, S0, N_paths, *args, **kwargs): # Make documentation!!!!!!!!
+    def simulate_paths(self, S0, T, *args, N_paths=1, **kwargs): 
         pass
 
     def weighted_integral(self, S0, ST1, ST2, f, T, *args, **kwargs):
@@ -132,7 +132,7 @@ class StockPriceModel(PriceModel, ABC):
         f = lambda x: 1
         return np.clip(self.weighted_integral(S0, ST1, ST2, f, T, *args, **kwargs), 0.0, 1.0)
 
-    def price_interval(self, S0, T, coverage_prob, *args, eps=1e-3, nmax=10, **kwargs):
+    def price_interval(self, S0, T, *args, coverage_prob=0.68, eps=1e-3, nmax=10, **kwargs):
         """
         Determines the stock price range for a target confidence level.
 
@@ -159,13 +159,6 @@ class StockPriceModel(PriceModel, ABC):
         def objective(x):
             ST1, ST2 = sorted(x)
             return abs(self.prob_between(S0, ST1, ST2, T, *args, **kwargs) - coverage_prob)
-
-        # def objective(x):
-        #     with warnings.catch_warnings():
-        #         warnings.simplefilter("ignore", category=RuntimeWarning)
-        #         ST1, ST2 = sorted(x)
-        #         return abs(self.prob_between(S0, ST1, ST2, T, *args, **kwargs) - coverage_prob)
-
         constraints = (
             {'type': 'ineq', 'fun': lambda x: x[0]},       # ST1 > 0
             {'type': 'ineq', 'fun': lambda x: x[1] - x[0]} # ST2 > ST1
@@ -195,7 +188,7 @@ class StockPriceModel(PriceModel, ABC):
         tuple
             Range of stock prices.
         """
-        return -np.inf, np.inf #1e-3*S0*np.sqrt(1+T), 1e3*S0*np.sqrt(1+T)
+        return -np.inf, np.inf 
 
     def POT(self, S0, T, barrier, *args, N_paths=10_000, **kwargs):
         """

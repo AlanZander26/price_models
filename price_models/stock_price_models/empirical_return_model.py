@@ -145,7 +145,7 @@ class EmpiricalReturnModel(StockPriceModel):
         return f_rT / ST # Change of variables: f_ST(ST) = f_rT(log_ST) / ST
 
 
-    def simulate_paths(self, S0, T, N_paths=1, method="kde"):
+    def simulate_paths(self, S0, T, *args, N_paths=1, method="kde", **kwargs):
         """
         Simulates stock price paths based on historical returns.
     
@@ -183,7 +183,7 @@ class EmpiricalReturnModel(StockPriceModel):
         return paths
 
     
-    def pdf_range(self, S0, T, *args, **kwargs):
+    def pdf_range(self, S0, T):
         """
         Calculates the range in prices covering most of the support of the probability distribution.
 

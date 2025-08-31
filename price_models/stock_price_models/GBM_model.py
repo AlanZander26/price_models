@@ -39,7 +39,7 @@ class GBMModel(StockPriceModel):
         Initializes the LogNormalModel.
         """
     
-    def stock_pdf(self, S0, ST, T, vol, r):
+    def stock_pdf(self, S0, ST, T, *args, vol, r, **kwargs):
         """
         Calculates the probability density function of the stock price.
 
@@ -74,7 +74,7 @@ class GBMModel(StockPriceModel):
         kde = sp.stats.gaussian_kde(ST_samples)
         return kde(ST)
 
-    def simulate_paths(self, S0, T, vol, r, N_steps=200, N_paths=1):
+    def simulate_paths(self, S0, T, *, vol, r, N_steps=200, N_paths=1):
         deltaT = T / N_steps
         t_arr = np.linspace(deltaT, T, N_steps)  # time grid
         Z = sp.stats.norm.rvs(size=(N_paths, N_steps))
@@ -87,7 +87,7 @@ class GBMModel(StockPriceModel):
         paths[:, 1:] = np.exp(log_paths)
         return paths
 
-    def prob_between(self, S0, ST1, ST2, T, vol, r, **kwargs): 
+    def prob_between(self, S0, ST1, ST2, T, *, vol, r): 
         """
         Calculates the probability that the stock price lies within a range.
 
@@ -116,7 +116,6 @@ class GBMModel(StockPriceModel):
             numer_max = np.log(S0 / ST2) + (r * T - 0.5 * sigma**2)
             d2_max = numer_max / sigma
             prob_max = sp.stats.norm.cdf(d2_max)
-        
         if ST1 <= 0:
             prob_min = 1.0
         elif ST1 == float('inf'):
@@ -128,7 +127,7 @@ class GBMModel(StockPriceModel):
         
         return prob_min - prob_max
     
-    def pdf_range(self, S0, T, vol, r, eps=1e-3, nmax=10, *args, **kwargs):
+    def pdf_range(self, S0, T, *, vol, r, eps=1e-3, nmax=10):
         """
         Calculates the range in prices covering most of the support of the probability distribution.
 
@@ -143,6 +142,6 @@ class GBMModel(StockPriceModel):
             Range of stock prices.
         """
         target_prob = 0.99999
-        ST1, ST2 = self.price_interval(S0, T, target_prob, vol, r, eps=eps, nmax=nmax)
+        ST1, ST2 = self.price_interval(S0, T, target_prob=target_prob, vol=vol, r=r, eps=eps, nmax=nmax)
         return ST1, ST2
 
