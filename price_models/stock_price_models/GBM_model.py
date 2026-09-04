@@ -142,6 +142,6 @@ class GBMModel(StockPriceModel):
             Range of stock prices.
         """
         target_prob = 0.99999
-        ST1, ST2 = self.price_interval(S0, T, target_prob=target_prob, vol=vol, r=r, eps=eps, nmax=nmax)
+        ST1, ST2 = self.price_interval(S0, T, coverage_prob=target_prob, vol=vol, r=r, eps=eps, nmax=nmax)
         return ST1, ST2
 

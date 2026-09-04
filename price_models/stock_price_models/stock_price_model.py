@@ -92,7 +92,7 @@ class StockPriceModel(PriceModel, ABC):
         n_samples = max(n_samples, 100)  # ensure a minimum resolution
         samples = np.linspace(ST1, ST2, n_samples)
         weights = f(samples) * self.stock_pdf(S0, samples, T, *args, **kwargs)
-        result = np.trapz(weights, samples)
+        result = np.trapezoid(weights, samples)
         return result
 
 

@@ -77,7 +77,7 @@ class EmpiricalReturnModel(StockPriceModel):
             pdf_T = fftshift(np.real(ifft(cf_T))) / dx
             pdf_grid.append(pdf_T) 
             mean_from_returns = np.exp(self.log_returns).mean() ** N_periods
-            mean_from_pdf = np.trapz(pdf_T * np.exp(x), x)
+            mean_from_pdf = np.trapezoid(pdf_T * np.exp(x), x)
             rel_error = abs(mean_from_pdf - mean_from_returns) / mean_from_returns
             if rel_error > 0.01:  # > 1%
                 warnings.warn(
