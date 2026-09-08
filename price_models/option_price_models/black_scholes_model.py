@@ -47,10 +47,7 @@ class BlackScholesModel(OptionPriceModel):
     rho(S0):
         Compute the rho of the option.
     """
-    
-    def __init__(self, strike, option_type, contract_size=100):
-        super().__init__(strike, option_type, contract_size=contract_size)
-        
+         
     def _d1_d2(self, S0, T, *, vol, r):
         """
         Helper method to calculate d1 and d2 for the Black-Scholes formula.

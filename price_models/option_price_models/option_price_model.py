@@ -8,9 +8,24 @@ from price_models import PriceModel
 # OptionPriceModel Class
 #################################
 
-class OptionPriceModel(PriceModel, ABC): # This is going to become a subclass of Option. Maybe change the name to PricedOption or ValuedOption.
+class OptionPriceModel(PriceModel, ABC):
     """
     Abstract base class for option pricing models.
+
+    All subclasses inherit the common option contract parameters:
+
+    strike : float
+        Strike price of the option.
+
+    option_type : str
+        Type of option: 'C' for call or 'P' for put.
+
+    contract_size : int or float
+        Number of underlying units represented by one option contract.
+
+    Subclasses should not redefine these instrument-specific parameters.
+    Additional parameters required for valuation should generally be passed
+    to the value method.
 
     Methods
     -------
