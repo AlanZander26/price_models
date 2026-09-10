@@ -66,7 +66,7 @@ class GBMModel(StockPriceModel):
 
         return result
 
-    def stock_pdf_MC(self, S0, ST, N_steps, N_paths, T, vol, r):
+    def stock_pdf_MC(self, S0, ST, N_steps, N_paths, T, vol, r, **kwargs):
         paths = self.simulate_paths(S0, N_steps=N_steps, N_paths=N_paths, T=T, vol=vol, r=r)
         ST_samples = paths[:, -1]
     
@@ -74,7 +74,7 @@ class GBMModel(StockPriceModel):
         kde = sp.stats.gaussian_kde(ST_samples)
         return kde(ST)
 
-    def simulate_paths(self, S0, T, *, vol, r, N_steps=200, N_paths=1):
+    def simulate_paths(self, S0, T, *, vol, r, N_steps=200, N_paths=1, **kwargs):
         deltaT = T / N_steps
         t_arr = np.linspace(deltaT, T, N_steps)  # time grid
         Z = sp.stats.norm.rvs(size=(N_paths, N_steps))
@@ -87,7 +87,7 @@ class GBMModel(StockPriceModel):
         paths[:, 1:] = np.exp(log_paths)
         return paths
 
-    def prob_between(self, S0, ST1, ST2, T, *, vol, r): 
+    def prob_between(self, S0, ST1, ST2, T, *, vol, r, **kwargs): 
         """
         Calculates the probability that the stock price lies within a range.
 
@@ -127,7 +127,7 @@ class GBMModel(StockPriceModel):
         
         return prob_min - prob_max
     
-    def pdf_range(self, S0, T, *, vol, r, eps=1e-3, nmax=10):
+    def pdf_range(self, S0, T, *, vol, r, eps=1e-3, nmax=10, **kwargs):
         """
         Calculates the range in prices covering most of the support of the probability distribution.
 
