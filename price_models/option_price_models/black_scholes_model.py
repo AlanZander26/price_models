@@ -69,7 +69,7 @@ class BlackScholesModel(OptionPriceModel):
         d2 = d1 - sigma
         return d1, d2
         
-    def value(self, S0, T, *, vol, r):
+    def value(self, S0, T, *, vol, r, **kwargs):
         """
         Compute the price of the option.
 
